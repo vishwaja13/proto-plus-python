@@ -20,12 +20,14 @@ from google.protobuf import duration_pb2
 from google.protobuf import timestamp_pb2
 from google.protobuf import struct_pb2
 from google.protobuf import wrappers_pb2
+from google.type import decimal_pb2
 
 from proto.marshal import compat
 from proto.marshal.collections import MapComposite
 from proto.marshal.collections import Repeated
 from proto.marshal.collections import RepeatedComposite
 from proto.marshal.rules import dates
+from proto.marshal.rules import decimal
 from proto.marshal.rules import struct
 from proto.marshal.rules import wrappers
 
@@ -129,6 +131,9 @@ class BaseMarshal:
         # Register date and time wrappers.
         self.register(timestamp_pb2.Timestamp, dates.TimestampRule())
         self.register(duration_pb2.Duration, dates.DurationRule())
+
+        # Decimal rule is on its own.
+        self.register(decimal_pb2.Decimal, decimal.DecimalRule())
 
         # Register nullable primitive wrappers.
         self.register(wrappers_pb2.BoolValue, wrappers.BoolValueRule())
